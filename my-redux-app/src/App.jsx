@@ -1,23 +1,36 @@
+// src/App.jsx
+
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, reset } from "./store/counterSlice";
 
-export default function App() {
-  // Step 1: Read data from store
+function App() {
   const count = useSelector((state) => state.counter.count);
-
-  // Step 2: Create dispatcher
+  const name = useSelector((state) => state.user.name);
   const dispatch = useDispatch();
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>🧮 Redux Counter Example</h1>
-      <h2>Count: {count}</h2>
+    <div>
+      <h1>Redux Example</h1>
 
-      <button onClick={() => dispatch(increment())}>➕ Increment</button>
-      <button onClick={() => dispatch(decrement())}>➖ Decrement</button>
-      <button onClick={() => dispatch(reset())}>🔁 Reset</button>
+      <h2>Counter: {count}</h2>
+      <button onClick={() => dispatch({ type: "INCREMENT" })}>Increment</button>
+      <button onClick={() => dispatch({ type: "DECREMENT" })}>Decrement</button>
+
+      <h2>User: {name}</h2>
+      <input
+        type="text"
+        placeholder="Enter name"
+        onChange={(e) =>
+          dispatch({ type: "SET_NAME", payload: e.target.value })
+        }
+      />
     </div>
   );
 }
+
+export default App;
+
+
+
+
 
