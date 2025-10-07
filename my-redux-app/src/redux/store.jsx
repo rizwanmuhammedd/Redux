@@ -1,23 +1,21 @@
-
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import counterReducer from "./counterReducer.jsx";
-
-const rootReducer = combineReducers({
-  counter: counterReducer,
-});
-
-const logger = (store) => (next) => (action) => {
-  console.log("Dispatching:", action);
-  const result = next(action);
-  console.log("Next State:", store.getState());
-  return result;
-};
+import { createStore } from "redux";
 
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const initialState = { count: 0 };
+
+function counterReducer(state = initialState, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { count: state.count + 1 };
+    case "DECREMENT":
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
 
 
 export const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(logger))
+  counterReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
