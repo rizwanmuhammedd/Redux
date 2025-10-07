@@ -1,7 +1,7 @@
-
-
+// src/redux/counterReducer.js
 const initialState = { count: 0 };
 
+// Reducer function
 function counterReducer(state = initialState, action) {
   switch (action.type) {
     case "INCREMENT":

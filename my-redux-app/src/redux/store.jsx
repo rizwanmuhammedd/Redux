@@ -1,14 +1,23 @@
 
-
-import { createStore, combineReducers } from "redux";
-import counterReducer from "./counterReducer";
-import userReducer from "./userReducer";
-
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import counterReducer from "./counterReducer.jsx";
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  user: userReducer,
 });
 
+const logger = (store) => (next) => (action) => {
+  console.log("Dispatching:", action);
+  const result = next(action);
+  console.log("Next State:", store.getState());
+  return result;
+};
 
-export const store = createStore(rootReducer);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+export const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(logger))
+);
